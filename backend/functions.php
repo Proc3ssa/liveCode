@@ -23,10 +23,10 @@ function read($file_name, $user):string{
     $file_dir = 'files';
     $fil = $file_dir."/".$file_name;
     
-    $file = fopen($fil, 'r');
+    
 
-    if(file_get_contents($file)){
-        return file_get_contents($file);
+    if(file_get_contents($fil)){
+        return file_get_contents($fil);
         
     }
     else{
