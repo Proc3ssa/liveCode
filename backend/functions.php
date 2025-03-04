@@ -4,7 +4,7 @@ function write($file_name, $user, $content):string{
     $file_dir = 'files';
     $fil = $file_dir."/".$file_name;
     
-    $file = fopen($fil, 'a');
+    $file = fopen($fil, 'w');
 
     if(fwrite($file, $content)){
         return "file written";

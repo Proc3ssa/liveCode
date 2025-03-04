@@ -17,7 +17,7 @@ if( REQUESTMETHOD === 'POST' || REQUESTMETHOD === 'GET'){
         echo json_encode(["ok" => true,"content" => $content]);
     }
     else{
-
+// POST
         $data = file_get_contents('php://input');
         $dataj = json_decode($data, true);
 
@@ -29,7 +29,7 @@ if( REQUESTMETHOD === 'POST' || REQUESTMETHOD === 'GET'){
 
         $outcome = write($file, $user, $content);
 
-        echo json_encode(["ok" => false,"outcome" => $outcome]);
+        echo json_encode(["ok" => true,"outcome" => $outcome]);
 
         
     }

@@ -4,45 +4,69 @@ const App = () => {
 
   const filename = 'text.txt';
   const user = 'Faisal';
-  const {content, setContent} = useState("");
+  const [content, setContent] = useState("");
 
-  useEffect( ()=>{
-    const change =  async (e) =>{
+  useEffect(()=>{
+
+    const get = async()=>{
+
+      const response = await fetch(`http://localhost:666/?filename=${filename}&user=${user}`, 
+      {
+        method : 'GET'
+      });
+
+      const data = await response.json();
+
+      if(data.ok){
+        setContent(data.content);
+      }
+      else{
+        setContent("error reading file");
+      }
+
+    }
+
+    const interval = setInterval(get, 1000)
+    return () => clearInterval(interval)
+
+  },[])
+
+ 
+
+    const write = async (e)=>{
+      
       e.preventDefault();
-    
-      const data = {
+      setContent(e.target.value);
+
+      const data ={
         filename : filename,
         content : content,
         user : user
       }
-    
-        try {
-          const fetch = await fetch('localhost:666',
-            {
-              method:'POST',
-              headers: {
-                'Content-type' :'application/json'
-              },
-              body : JSON.stringify(data)
-      
-            }
-          );
-      
-          const response = await fetch.json();
-    
-          if(response.ok){
-            setContent = response.content;
-          }
-          else{
-            console.log(response);
-          }
-    
-        } catch (error) {
-          console.log(error)
+      const wrt = await fetch('http://localhost:666', 
+        {
+          method :'POST',
+          headers: {
+            'Content-Type' : 'application/json'
+          },
+
+          body : JSON.stringify(data)
         }
-        
+      )
+
+      const response = await wrt.json();
+      
+      if(response.ok){
+        console.log('Written')
       }
-  },[])
+      else{
+        console.error("unable to write");
+      }
+    }
+
+  
+    
+  
  
 
   return (
@@ -50,7 +74,7 @@ const App = () => {
     
     <div>
       <h1>Live editor 1.1</h1>
-      <textarea name="" id="" value={content} onChange={(e) => change(e)}></textarea>
+      <textarea name="" id="" value={content} onChange={write}></textarea>
       
     </div>
   )
