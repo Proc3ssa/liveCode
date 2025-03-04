@@ -30,7 +30,7 @@ function read($file_name, $user):string{
         
     }
     else{
-        return "file does not exist";
+        return "unknown file";
     }
     fclose($file);
     
